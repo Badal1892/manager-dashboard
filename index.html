@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manager Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <div>
+    <button id="menuBtn">☰</button>
+    <span>Devantra ERP</span>
+  </div>
+
+  <div class="header-right">
+    <span>🔍</span>
+    <span>⚙️</span>
+
+    <div class="profile" onclick="toggleProfile()">
+      👤
+      <div class="dropdown" id="profileDropdown">
+        <p>My Profile</p>
+        <p>Settings</p>
+        <p>Logout</p>
+      </div>
+    </div>
+
+    <button onclick="toggleTheme()">🌙</button>
+  </div>
+</header>
+
+<div class="container">
+
+<aside id="sidebar"></aside>
+
+<main>
+
+<div id="cards"></div>
+
+<button onclick="openModal('memberModal')">Add Member</button>
+<button onclick="openModal('taskModal')">Assign Task</button>
+
+<div class="grid">
+  <div class="box" id="team"></div>
+  <div class="box" id="activity"></div>
+  <div class="box" id="tasks"></div>
+</div>
+
+</main>
+</div>
+
+<div id="overlay"></div>
+
+<!-- MEMBER MODAL -->
+<div class="modal" id="memberModal">
+<form onsubmit="createMember(event)">
+<h3>Add Member</h3>
+
+<input id="name" placeholder="Full Name">
+<small class="error" id="nameError"></small><br><br>
+
+<input id="empId" placeholder="Employee ID">
+<small class="error" id="idError"></small><br><br>
+
+<input id="role" placeholder="Role">
+<small class="error" id="roleError"></small><br><br>
+
+<input id="email" placeholder="Email">
+<small class="error" id="emailError"></small><br><br>
+
+<button>Submit</button>
+<button type="button" onclick="closeModal('memberModal')">Close</button>
+</form>
+</div>
+
+<!-- TASK MODAL -->
+<div class="modal" id="taskModal">
+<form onsubmit="assignTask(event)">
+<h3>Assign Task</h3>
+<input id="taskName" placeholder="Task Name" required><br><br>
+<input id="assignee" placeholder="Assignee" required><br><br>
+<input id="deadline" placeholder="Deadline" required><br><br>
+<input id="hours" placeholder="Hours" required><br><br>
+<button>Submit</button>
+<button type="button" onclick="closeModal('taskModal')">Close</button>
+</form>
+</div>
+
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
