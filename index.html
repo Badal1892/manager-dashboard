@@ -10,7 +10,7 @@
 
 <body>
 
-<header>
+<header class="glass">
   <div>
     <button id="menuBtn">☰</button>
     <span>Devantra ERP</span>
@@ -20,9 +20,10 @@
     <span>🔍</span>
     <span>⚙️</span>
 
+    <!-- PROFILE -->
     <div class="profile" onclick="toggleProfile()">
       👤
-      <div class="dropdown" id="profileDropdown">
+      <div class="dropdown glass" id="profileDropdown">
         <p>My Profile</p>
         <p>Settings</p>
         <p>Logout</p>
@@ -35,19 +36,24 @@
 
 <div class="container">
 
-<aside id="sidebar"></aside>
+<!-- SIDEBAR -->
+<aside id="sidebar" class="glass"></aside>
 
 <main>
 
-<div id="cards"></div>
+<!-- CARDS -->
+<div id="cards">
+  <!-- Cards will render here -->
+</div>
 
 <button onclick="openModal('memberModal')">Add Member</button>
 <button onclick="openModal('taskModal')">Assign Task</button>
 
+<!-- GRID -->
 <div class="grid">
-  <div class="box" id="team"></div>
-  <div class="box" id="activity"></div>
-  <div class="box" id="tasks"></div>
+  <div class="box glass" id="team"></div>
+  <div class="box glass" id="activity"></div>
+  <div class="box glass" id="tasks"></div>
 </div>
 
 </main>
@@ -56,7 +62,7 @@
 <div id="overlay"></div>
 
 <!-- MEMBER MODAL -->
-<div class="modal" id="memberModal">
+<div class="modal glass" id="memberModal">
 <form onsubmit="createMember(event)">
 <h3>Add Member</h3>
 
@@ -78,13 +84,15 @@
 </div>
 
 <!-- TASK MODAL -->
-<div class="modal" id="taskModal">
+<div class="modal glass" id="taskModal">
 <form onsubmit="assignTask(event)">
 <h3>Assign Task</h3>
+
 <input id="taskName" placeholder="Task Name" required><br><br>
 <input id="assignee" placeholder="Assignee" required><br><br>
 <input id="deadline" placeholder="Deadline" required><br><br>
 <input id="hours" placeholder="Hours" required><br><br>
+
 <button>Submit</button>
 <button type="button" onclick="closeModal('taskModal')">Close</button>
 </form>
