@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Manager Dashboard</title>
-
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -17,39 +16,50 @@
   </div>
 
   <div class="header-right">
-    <span>🔍</span>
-    <span>⚙️</span>
-
-    <!-- PROFILE -->
     <div class="profile" onclick="toggleProfile()">
       👤
-      <div class="dropdown glass" id="profileDropdown">
+      <div class="dropdown" id="profileDropdown">
         <p>My Profile</p>
         <p>Settings</p>
         <p>Logout</p>
       </div>
     </div>
-
     <button onclick="toggleTheme()">🌙</button>
   </div>
 </header>
 
 <div class="container">
 
-<!-- SIDEBAR -->
 <aside id="sidebar" class="glass"></aside>
 
 <main>
 
-<!-- CARDS -->
-<div id="cards">
-  <!-- Cards will render here -->
+<div id="cards"></div>
+
+<div class="actions glass">
+  <button onclick="openModal('taskModal')">Assign Task</button>
+  <button>Manage Leaves</button>
+  <button onclick="openModal('memberModal')">Add Member</button>
+  <button>View Reports</button>
 </div>
 
-<button onclick="openModal('memberModal')">Add Member</button>
-<button onclick="openModal('taskModal')">Assign Task</button>
+<div class="card glass">
+  <h3>Performance</h3>
+  ⭐⭐⭐⭐☆
+  <span class="badge">3 New</span>
+</div>
 
-<!-- GRID -->
+<div class="card glass">
+  <h3>Progress</h3>
+  <svg width="100" height="100">
+    <circle cx="50" cy="50" r="40" stroke="gray" stroke-width="8" fill="none"/>
+    <circle cx="50" cy="50" r="40" stroke="lime" stroke-width="8"
+      stroke-dasharray="251"
+      stroke-dashoffset="60"
+      fill="none"/>
+  </svg>
+</div>
+
 <div class="grid">
   <div class="box glass" id="team"></div>
   <div class="box glass" id="activity"></div>
@@ -67,16 +77,16 @@
 <h3>Add Member</h3>
 
 <input id="name" placeholder="Full Name">
-<small class="error" id="nameError"></small><br><br>
+<small id="nameError" class="error"></small><br><br>
 
 <input id="empId" placeholder="Employee ID">
-<small class="error" id="idError"></small><br><br>
+<small id="idError" class="error"></small><br><br>
 
 <input id="role" placeholder="Role">
-<small class="error" id="roleError"></small><br><br>
+<small id="roleError" class="error"></small><br><br>
 
 <input id="email" placeholder="Email">
-<small class="error" id="emailError"></small><br><br>
+<small id="emailError" class="error"></small><br><br>
 
 <button>Submit</button>
 <button type="button" onclick="closeModal('memberModal')">Close</button>
@@ -87,12 +97,10 @@
 <div class="modal glass" id="taskModal">
 <form onsubmit="assignTask(event)">
 <h3>Assign Task</h3>
-
 <input id="taskName" placeholder="Task Name" required><br><br>
 <input id="assignee" placeholder="Assignee" required><br><br>
 <input id="deadline" placeholder="Deadline" required><br><br>
 <input id="hours" placeholder="Hours" required><br><br>
-
 <button>Submit</button>
 <button type="button" onclick="closeModal('taskModal')">Close</button>
 </form>
@@ -100,6 +108,6 @@
 
 <div id="toast"></div>
 
-<script src="script.js"></script>
+<script type="module" src="script.js"></script>
 </body>
 </html>
