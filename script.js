@@ -1,253 +1,94 @@
+import { fetchDashboardData } from "./data.js";
 
-/* ================= DATA ================= */
-const data = {
-  navItems: ["Dashboard", "Tasks", "Team", "Reports"],
+let data = fetchDashboardData();
 
-  stats: [
-    { title: "Members", value: 15 },
-    { title: "Tasks", value: 5 },
-    { title: "Completed", value: 20 },
-    { title: "Pending", value: 3 }
-  ],
-
-  team: [
-    { name: "Rahul", role: "Dev", status: "Present" },
-    { name: "Anjali", role: "Designer", status: "On Leave" },
-    { name: "Aman", role: "Tester", status: "Present" },
-    { name: "Priya", role: "HR", status: "On Leave" }
-  ],
-
-  activity: [
-    "Task assigned",
-    "Meeting done"
-  ],
-
-  tasks: [
-    { name: "UI", deadline: "Today" },
-    { name: "Backend", deadline: "Tomorrow" }
-  ]
-};
-
-
-/* ================= RENDER FUNCTIONS ================= */
-
-// Sidebar
-function renderSidebar() {
-  sidebar.innerHTML = data.navItems.map(i =>
-    `<div class="nav-item">${i}</div>`
-  ).join("");
-
-  document.querySelectorAll(".nav-item").forEach(el => {
-    el.onclick = () => {
-      document.querySelectorAll(".nav-item")
-        .forEach(i => i.classList.remove("active"));
-      el.classList.add("active");
-    };
-  });
+/* RENDER */
+function renderSidebar(){
+  sidebar.innerHTML=data.navItems.map(i=>`<div class='nav-item'>${i}</div>`).join("");
 }
 
-// Cards
-function renderCards() {
-  cards.innerHTML = data.stats.map(s => `
-    <div class="card">
+function renderCards(){
+  cards.innerHTML=data.stats.map(s=>`
+    <div class="card glass">
       <h3>${s.value}</h3>
       <p>${s.title}</p>
-    </div>
-  `).join("");
+    </div>`).join("");
 }
 
-// Team (with attendance)
-function renderTeam() {
-  team.innerHTML = "<h3>Team</h3>" + data.team.map((m, i) => `
+function renderTeam(){
+  team.innerHTML="<h3>Team</h3>"+data.teamMembers.map((m,i)=>`
     <div class="member">
-      <p>${m.name} - ${m.role}</p>
-
-      <p class="${m.status === "Present" ? "present" : "leave"}">
-        ${m.status === "Present" ? "🟢 Present" : "🔴 On Leave"}
+      ${m.name} - ${m.role}
+      <p class="${m.status==='Present'?'present':'leave'}">
+        ${m.status==='Present'?'🟢 Present':'🔴 On Leave'}
       </p>
-
       <button onclick="toggleStatus(${i})">Toggle</button>
-    </div>
-  `).join("");
+    </div>`).join("");
 }
 
-// Activity
-function renderActivity() {
-  activity.innerHTML = "<h3>Activity</h3>" +
-    data.activity.map(a => `<div>${a}</div>`).join("");
+function renderActivity(){
+  activity.innerHTML="<h3>Activity</h3>"+data.recentActivity.map(a=>`<div>${a}</div>`).join("");
 }
 
-// Tasks
-function renderTasks() {
-  tasks.innerHTML = "<h3>Tasks</h3>" + data.tasks.map(t => `
-    <div class="${t.deadline === "Today" ? "today" : ""}">
-      ${t.name} - ${t.deadline}
-    </div>
-  `).join("");
+function renderTasks(){
+  tasks.innerHTML="<h3>Tasks</h3>"+data.activeTasks.map(t=>`
+    <div>${t.name} - ${t.deadline}</div>`).join("");
 }
 
-
-/* ================= ATTENDANCE TOGGLE ================= */
-
-function toggleStatus(index) {
-  const member = data.team[index];
-
-  member.status = member.status === "Present"
-    ? "On Leave"
-    : "Present";
-
+/* FUNCTIONS */
+function toggleStatus(i){
+  data.teamMembers[i].status =
+    data.teamMembers[i].status==="Present"?"On Leave":"Present";
   renderTeam();
-  showToast("Status Updated 🔄");
 }
 
-
-/* ================= SIDEBAR ================= */
-
-menuBtn.onclick = () => {
-  sidebar.classList.toggle("active");
-  overlay.classList.toggle("show");
-};
-
-
-/* ================= PROFILE ================= */
-
-function toggleProfile() {
-  profileDropdown.classList.toggle("show");
-}
-
-window.onclick = function (e) {
-  if (!e.target.closest(".profile")) {
-    profileDropdown.classList.remove("show");
-  }
-};
-
-
-/* ================= MODAL ================= */
-
-function openModal(id) {
+function openModal(id){
   document.getElementById(id).classList.add("show");
   overlay.classList.add("show");
 }
 
-function closeModal(id) {
+function closeModal(id){
   document.getElementById(id).classList.remove("show");
   overlay.classList.remove("show");
 }
 
-
-/* ================= TOAST ================= */
-
-function showToast(msg) {
-  toast.innerText = msg;
-  toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 3000);
+function toggleProfile(){
+  profileDropdown.classList.toggle("show");
 }
 
-
-/* ================= DARK MODE ================= */
-
-function toggleTheme() {
-  document.body.classList.toggle("dark");
-}
-
-
-/* ================= VALIDATION ================= */
-
-const nameInput = document.getElementById("name");
-const idInput = document.getElementById("empId");
-const roleInput = document.getElementById("role");
-const emailInput = document.getElementById("email");
-
-/* NAME */
-nameInput.oninput = () => {
-  if (!/^[a-zA-Z ]+$/.test(nameInput.value)) {
-    nameError.innerText = "Only letters allowed";
-    nameInput.classList.add("invalid");
-  } else {
-    nameError.innerText = "";
-    nameInput.classList.remove("invalid");
-    nameInput.classList.add("valid");
+window.onclick=function(e){
+  if(!e.target.closest(".profile")){
+    profileDropdown.classList.remove("show");
   }
 };
 
-/* ID */
-idInput.oninput = () => {
-  if (!/^[0-9]+$/.test(idInput.value)) {
-    idError.innerText = "Only numbers allowed";
-    idInput.classList.add("invalid");
-  } else {
-    idError.innerText = "";
-    idInput.classList.remove("invalid");
-    idInput.classList.add("valid");
-  }
-};
-
-/* ROLE */
-roleInput.oninput = () => {
-  if (roleInput.value.trim() === "") {
-    roleError.innerText = "Required";
-    roleInput.classList.add("invalid");
-  } else {
-    roleError.innerText = "";
-    roleInput.classList.remove("invalid");
-    roleInput.classList.add("valid");
-  }
-};
-
-/* EMAIL */
-emailInput.oninput = () => {
-  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!pattern.test(emailInput.value)) {
-    emailError.innerText = "Invalid email";
-    emailInput.classList.add("invalid");
-  } else {
-    emailError.innerText = "";
-    emailInput.classList.remove("invalid");
-    emailInput.classList.add("valid");
-  }
-};
-
-
-/* ================= FORM ================= */
-
-function createMember(e) {
+function createMember(e){
   e.preventDefault();
-
-  if (
-    document.querySelectorAll(".invalid").length > 0 ||
-    !nameInput.value ||
-    !idInput.value ||
-    !roleInput.value ||
-    !emailInput.value
-  ) {
-    showToast("Fix errors ❌");
-    return;
-  }
-
-  data.team.push({
-    name: nameInput.value,
-    role: roleInput.value,
-    status: "Present"
-  });
-
-  renderTeam();
   showToast("Member Added ✅");
   closeModal("memberModal");
 }
 
-function assignTask(e) {
+function assignTask(e){
   e.preventDefault();
   showToast("Task Assigned 🚀");
   closeModal("taskModal");
 }
 
+function showToast(msg){
+  toast.innerText=msg;
+  toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),3000);
+}
 
-/* ================= INIT ================= */
+/* GLOBAL FIX */
+window.openModal=openModal;
+window.closeModal=closeModal;
+window.toggleStatus=toggleStatus;
+window.toggleProfile=toggleProfile;
+window.createMember=createMember;
+window.assignTask=assignTask;
 
+/* INIT */
 renderSidebar();
 renderCards();
 renderTeam();
