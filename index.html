@@ -11,7 +11,7 @@
 
 <header class="glass">
   <div>
-    <button id="menuBtn">☰</button>
+    <button>☰</button>
     <span>Devantra ERP</span>
   </div>
 
@@ -24,7 +24,6 @@
         <p>Logout</p>
       </div>
     </div>
-    <button onclick="toggleTheme()">🌙</button>
   </div>
 </header>
 
@@ -76,17 +75,10 @@
 <form onsubmit="createMember(event)">
 <h3>Add Member</h3>
 
-<input id="name" placeholder="Full Name">
-<small id="nameError" class="error"></small><br><br>
-
-<input id="empId" placeholder="Employee ID">
-<small id="idError" class="error"></small><br><br>
-
-<input id="role" placeholder="Role">
-<small id="roleError" class="error"></small><br><br>
-
-<input id="email" placeholder="Email">
-<small id="emailError" class="error"></small><br><br>
+<input id="name" placeholder="Full Name"><br><br>
+<input id="empId" placeholder="Employee ID"><br><br>
+<input id="role" placeholder="Role"><br><br>
+<input id="email" placeholder="Email"><br><br>
 
 <button>Submit</button>
 <button type="button" onclick="closeModal('memberModal')">Close</button>
@@ -97,10 +89,10 @@
 <div class="modal glass" id="taskModal">
 <form onsubmit="assignTask(event)">
 <h3>Assign Task</h3>
-<input id="taskName" placeholder="Task Name" required><br><br>
-<input id="assignee" placeholder="Assignee" required><br><br>
-<input id="deadline" placeholder="Deadline" required><br><br>
-<input id="hours" placeholder="Hours" required><br><br>
+<input id="taskName" placeholder="Task Name"><br><br>
+<input id="assignee" placeholder="Assignee"><br><br>
+<input id="deadline" placeholder="Deadline"><br><br>
+<input id="hours" placeholder="Hours"><br><br>
 <button>Submit</button>
 <button type="button" onclick="closeModal('taskModal')">Close</button>
 </form>
