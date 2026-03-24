@@ -119,3 +119,66 @@ input{
   display:none;
 }
 #toast.show{display:block}
+/* ================= MOBILE RESPONSIVE ================= */
+
+/* TABLET */
+@media (max-width: 992px){
+
+  .grid{
+    grid-template-columns: repeat(2,1fr);
+  }
+
+  #cards{
+    justify-content: center;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 600px){
+
+  .container{
+    flex-direction: column;
+  }
+
+  /* SIDEBAR FULL WIDTH */
+  #sidebar{
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+  }
+
+  .nav-item{
+    white-space: nowrap;
+  }
+
+  /* STACK EVERYTHING */
+  .grid{
+    grid-template-columns: 1fr;
+  }
+
+  #cards{
+    flex-direction: column;
+  }
+
+  .actions{
+    flex-direction: column;
+  }
+
+  button{
+    width: 100%;
+  }
+
+  header{
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .header-right{
+    display: flex;
+    justify-content: space-between;
+  }
+}
+*{
+  transition: all 0.2s ease;
+}
