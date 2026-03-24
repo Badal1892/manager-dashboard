@@ -1,184 +1,96 @@
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+import { fetchDashboardData } from "./data.js";
 
-body{
-  background:linear-gradient(135deg,#1e3a8a,#0f172a);
-  color:#fff;
+let data = fetchDashboardData();
+
+/* RENDER */
+function renderSidebar(){
+  sidebar.innerHTML=data.navItems.map(i=>`<div class='nav-item'>${i}</div>`).join("");
 }
 
-/* GLASS */
-.glass{
-  background:rgba(255,255,255,0.1);
-  backdrop-filter:blur(10px);
-  border-radius:10px;
-  border:1px solid rgba(255,255,255,0.2);
+function renderCards(){
+  cards.innerHTML=data.stats.map(s=>`
+    <div class="card glass">
+      <h3>${s.value}</h3>
+      <p>${s.title}</p>
+    </div>`).join("");
 }
 
-/* HEADER */
-header{
-  display:flex;justify-content:space-between;
-  padding:10px 20px;margin:10px;
+function renderTeam(){
+  team.innerHTML="<h3>Team</h3>"+data.teamMembers.map((m,i)=>`
+    <div class="member">
+      ${m.name} - ${m.role}
+      <p class="${m.status==='Present'?'present':'leave'}">
+        ${m.status==='Present'?'🟢 Present':'🔴 On Leave'}
+      </p>
+      <button onclick="toggleStatus(${i})">Toggle</button>
+    </div>`).join("");
 }
 
-.container{display:flex}
-
-/* SIDEBAR */
-#sidebar{
-  width:220px;padding:15px;margin:10px;
-}
-.nav-item{padding:10px;margin-bottom:8px;cursor:pointer}
-.nav-item:hover{background:rgba(255,255,255,0.2)}
-.nav-item.active{background:rgba(255,255,255,0.3)}
-
-/* MAIN */
-main{flex:1;padding:20px}
-
-/* CARDS */
-#cards{display:flex;gap:10px;flex-wrap:wrap}
-.card{padding:15px;margin:10px 0}
-
-/* GRID */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.box{padding:10px}
-
-/* MEMBER */
-.member{margin-bottom:10px;padding:10px;background:rgba(255,255,255,0.1)}
-.present{color:#4ade80}
-.leave{color:#f87171}
-
-/* ACTIONS */
-.actions{display:flex;gap:10px;padding:10px;margin:10px 0}
-
-/* BUTTON */
-button{
-  padding:8px 12px;
-  background:rgba(255,255,255,0.2);
-  color:#fff;border:none;border-radius:5px;
-  cursor:pointer;
-  transition:0.2s;
-}
-button:hover{
-  background:rgba(255,255,255,0.4);
-  transform:scale(1.05);
+function renderActivity(){
+  activity.innerHTML="<h3>Activity</h3>"+data.recentActivity.map(a=>`<div>${a}</div>`).join("");
 }
 
-/* INPUT */
-input{
-  width:100%;padding:10px;
-  background:rgba(255,255,255,0.1);
-  color:#fff;border:1px solid #ccc;
-}
-.error{color:red;font-size:12px}
-
-/* DROPDOWN */
-.profile{position:relative;cursor:pointer}
-.dropdown{
-  display:none;
-  position:absolute;
-  top:40px;
-  right:0;
-  background:rgba(0,0,0,0.8);
-  padding:10px;
-  border-radius:10px;
-}
-.dropdown p{
-  padding:8px;
-  cursor:pointer;
-}
-.dropdown p:hover{
-  background:rgba(255,255,255,0.2);
-}
-.dropdown.show{display:block}
-
-/* MODAL */
-.modal{
-  display:none;position:fixed;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  padding:20px;
-}
-.modal.show{display:block}
-
-/* OVERLAY */
-#overlay{
-  display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,0.5);
-}
-#overlay.show{display:block}
-
-/* BADGE */
-.badge{
-  background:red;padding:3px 8px;
-  border-radius:10px;font-size:12px;
+function renderTasks(){
+  tasks.innerHTML="<h3>Tasks</h3>"+data.activeTasks.map(t=>`
+    <div>${t.name} - ${t.deadline}</div>`).join("");
 }
 
-/* TOAST */
-#toast{
-  position:fixed;bottom:20px;right:20px;
-  background:black;color:white;
-  padding:10px;border-radius:5px;
-  display:none;
+/* FUNCTIONS */
+function toggleStatus(i){
+  data.teamMembers[i].status =
+    data.teamMembers[i].status==="Present"?"On Leave":"Present";
+  renderTeam();
 }
-#toast.show{display:block}
-/* ================= MOBILE RESPONSIVE ================= */
 
-/* TABLET */
-@media (max-width: 992px){
+function openModal(id){
+  document.getElementById(id).classList.add("show");
+  overlay.classList.add("show");
+}
 
-  .grid{
-    grid-template-columns: repeat(2,1fr);
+function closeModal(id){
+  document.getElementById(id).classList.remove("show");
+  overlay.classList.remove("show");
+}
+
+function toggleProfile(){
+  profileDropdown.classList.toggle("show");
+}
+
+window.onclick=function(e){
+  if(!e.target.closest(".profile")){
+    profileDropdown.classList.remove("show");
   }
+};
 
-  #cards{
-    justify-content: center;
-  }
+function createMember(e){
+  e.preventDefault();
+  showToast("Member Added ✅");
+  closeModal("memberModal");
 }
 
-/* MOBILE */
-@media (max-width: 600px){
-
-  .container{
-    flex-direction: column;
-  }
-
-  /* SIDEBAR FULL WIDTH */
-  #sidebar{
-    width: 100%;
-    display: flex;
-    overflow-x: auto;
-    gap: 10px;
-  }
-
-  .nav-item{
-    white-space: nowrap;
-  }
-
-  /* STACK EVERYTHING */
-  .grid{
-    grid-template-columns: 1fr;
-  }
-
-  #cards{
-    flex-direction: column;
-  }
-
-  .actions{
-    flex-direction: column;
-  }
-
-  button{
-    width: 100%;
-  }
-
-  header{
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .header-right{
-    display: flex;
-    justify-content: space-between;
-  }
+function assignTask(e){
+  e.preventDefault();
+  showToast("Task Assigned 🚀");
+  closeModal("taskModal");
 }
-*{
-  transition: all 0.2s ease;
+
+function showToast(msg){
+  toast.innerText=msg;
+  toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),3000);
 }
+
+/* GLOBAL FIX */
+window.openModal=openModal;
+window.closeModal=closeModal;
+window.toggleStatus=toggleStatus;
+window.toggleProfile=toggleProfile;
+window.createMember=createMember;
+window.assignTask=assignTask;
+
+/* INIT */
+renderSidebar();
+renderCards();
+renderTeam();
+renderActivity();
+renderTasks();
