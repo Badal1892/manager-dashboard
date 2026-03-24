@@ -1,4 +1,4 @@
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;transition:0.2s}
 
 body{
   background:linear-gradient(135deg,#1e3a8a,#0f172a);
@@ -17,6 +17,8 @@ body{
 header{
   display:flex;justify-content:space-between;
   padding:10px 20px;margin:10px;
+  position:relative;
+  z-index:1000;
 }
 
 .container{display:flex}
@@ -27,7 +29,6 @@ header{
 }
 .nav-item{padding:10px;margin-bottom:8px;cursor:pointer}
 .nav-item:hover{background:rgba(255,255,255,0.2)}
-.nav-item.active{background:rgba(255,255,255,0.3)}
 
 /* MAIN */
 main{flex:1;padding:20px}
@@ -54,7 +55,6 @@ button{
   background:rgba(255,255,255,0.2);
   color:#fff;border:none;border-radius:5px;
   cursor:pointer;
-  transition:0.2s;
 }
 button:hover{
   background:rgba(255,255,255,0.4);
@@ -67,18 +67,18 @@ input{
   background:rgba(255,255,255,0.1);
   color:#fff;border:1px solid #ccc;
 }
-.error{color:red;font-size:12px}
 
 /* DROPDOWN */
 .profile{position:relative;cursor:pointer}
 .dropdown{
   display:none;
   position:absolute;
-  top:40px;
+  top:45px;
   right:0;
-  background:rgba(0,0,0,0.8);
+  background:rgba(0,0,0,0.9);
   padding:10px;
   border-radius:10px;
+  z-index:9999;
 }
 .dropdown p{
   padding:8px;
@@ -119,66 +119,34 @@ input{
   display:none;
 }
 #toast.show{display:block}
-/* ================= MOBILE RESPONSIVE ================= */
 
-/* TABLET */
-@media (max-width: 992px){
-
-  .grid{
-    grid-template-columns: repeat(2,1fr);
-  }
-
-  #cards{
-    justify-content: center;
-  }
+/* RESPONSIVE */
+@media(max-width:992px){
+  .grid{grid-template-columns:repeat(2,1fr);}
 }
 
-/* MOBILE */
-@media (max-width: 600px){
+@media(max-width:600px){
 
-  .container{
-    flex-direction: column;
-  }
+  .container{flex-direction:column;}
 
-  /* SIDEBAR FULL WIDTH */
   #sidebar{
-    width: 100%;
-    display: flex;
-    overflow-x: auto;
-    gap: 10px;
+    width:100%;
+    display:flex;
+    overflow-x:auto;
   }
 
-  .nav-item{
-    white-space: nowrap;
-  }
+  .grid{grid-template-columns:1fr;}
 
-  /* STACK EVERYTHING */
-  .grid{
-    grid-template-columns: 1fr;
-  }
+  #cards{flex-direction:column;}
 
-  #cards{
-    flex-direction: column;
-  }
+  .actions{flex-direction:column;}
 
-  .actions{
-    flex-direction: column;
-  }
+  button{width:100%;}
 
-  button{
-    width: 100%;
-  }
+  header{flex-direction:column;}
 
-  header{
-    flex-direction: column;
-    gap: 10px;
+  .dropdown{
+    right:10px;
+    top:50px;
   }
-
-  .header-right{
-    display: flex;
-    justify-content: space-between;
-  }
-}
-*{
-  transition: all 0.2s ease;
 }
